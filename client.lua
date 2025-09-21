@@ -171,7 +171,7 @@ if Config.AlwaysStart then
 
     -- Handle player loaded/unloaded events for frameworks
     local frameworkEvents = {
-        { resource = 'ox_core',loginEvent = 'ox:playerLoaded', logoutEvent = 'ox:playerLogout' },
+        { resource = 'ox_core', loginEvent = 'ox:playerLoaded', logoutEvent = 'ox:playerLogout' },
         { resource = 'qb-core', loginEvent = 'QBCore:Client:OnPlayerLoaded', logoutEvent = 'QBCore:Client:OnPlayerUnload' },
         { resource = 'es_extended', loginEvent = 'esx:playerLoaded', logoutEvent = 'esx:onPlayerLogout' }
     }
