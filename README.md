@@ -2,6 +2,10 @@
 
 FiveM resource to play a duck quack sound when the player walks.
 
+## Preview
+
+[![Video Preview](https://img.youtube.com/vi/5x1eWoMir8k/sddefault.jpg)](https://www.youtube.com/watch?v=5x1eWoMir8k)
+
 ## Installation
 
 1. Drag and drop
