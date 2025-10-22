@@ -32,12 +32,19 @@ local function loadAudioFile()
     return true
 end
 
+print('Config.MuteOriginalFootsteps is: ' .. tostring(Config.MuteOriginalFootsteps))
+if Config.MuteOriginalFootsteps and Config.EventMode then
+    print('^1Warning: Config.MuteOriginalFootsteps and Config.EventMode are enabled. MuteOriginalFootsteps only works with EventMode = false.^7')
+end
+
 -- Enable/disable default ped footstep sounds
 ---@param ped number entity id of the ped
 ---@param toggle boolean -- true to enable footsteps sounds, false to disable
 local function editFootsteps(ped, toggle)
-    SetPedAudioFootstepQuiet(ped, toggle) -- Enables/disables ped's "quiet" footstep sound.
-    SetPedAudioFootstepLoud(ped, toggle) -- Enables/disables ped's "loud" footstep sound.
+    if not Config.EventMode and Config.MuteOriginalFootsteps then
+        SetPedAudioFootstepQuiet(ped, toggle) -- Enables/disables peds "quiet" footstep sound.
+        SetPedAudioFootstepLoud(ped, toggle) -- Enables/disables peds "loud" footstep sound.
+    end
 end
 
 -- Cleanup duck mode state
@@ -66,6 +73,18 @@ local function doDaQuack(soundId, soundName, x, y, z, soundSet, p6, maxDistance,
 end
 
 -- Main logic ---------------------------------------------------------------
+
+print("Config.EventMode is: " .. tostring(Config.EventMode))
+if Config.EventMode then
+    AddEventHandler('CEventFootStepHeard', function (args)
+        if not duckMode then
+            return
+        end
+
+        local soundDistance = math.max(1.0, math.min(300.0, Config.SoundDistance))
+        TriggerServerEvent('mad-duck:server:footstepSound', soundDistance)
+    end)
+end
 
 -- Duck mode management
 ---@param enable boolean true to enable duck mode, false to disable
@@ -99,6 +118,8 @@ local function setDuckMode(enable, reason)
 
     local currentPed = PlayerPedId()
     editFootsteps(currentPed, false) -- Mute default footsteps
+
+    if Config.EventMode then return end
 
     -- No spammy thready (kill before a new one)
     if footstepThread then

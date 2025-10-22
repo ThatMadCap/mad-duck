@@ -5,7 +5,7 @@ game 'gta5'
 
 name 'mad-duck'
 author 'MadCap'
-version '1.0.0'
+version '1.1.0'
 description 'Quack quack quack'
 
 client_script 'client.lua'
